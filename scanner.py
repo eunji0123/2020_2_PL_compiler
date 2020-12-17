@@ -5,12 +5,12 @@ class Scanner:
     operator = ['=', '>', '==', '+', '*']
     
     def __init__(self, source: str):
-        self.source = source
-        self.tokens = []
-        self.length = len(source)
+        self.source = source # source file
+        self.tokens = [] # store tokens into the list 'tokens'
+        self.length = len(source) # length of the source file
 
     def scan(self):
-        ch = 0
+        ch = 0 # points to the next character
 
         while ch < self.length:
             # strip out white spaces
