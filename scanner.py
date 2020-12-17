@@ -19,6 +19,7 @@ class Scanner:
 
             # semicolon
             elif self.source[ch] == ';':
+                self.tokens.append(('semicolon', self.source[ch]))
                 ch += 1
                 
             # num
@@ -27,7 +28,7 @@ class Scanner:
                 while self.source[ch].isdigit():
                     num += self.source[ch]
                     ch += 1
-                self.tokens.append(('num ', num))
+                self.tokens.append(('num', num))
 
             # word
             elif self.source[ch].isalpha():
@@ -37,28 +38,28 @@ class Scanner:
                     ch += 1
                 # vtype
                 if word in Scanner.vtype:
-                    self.tokens.append(('vtype ', word))
+                    self.tokens.append(('vtype', word))
                 # statement
                 elif word in Scanner.statement:
-                    self.tokens.append(('statement ', word))
+                    self.tokens.append(('statement', word))
                 # word
                 else:
-                    self.tokens.append(('word ', word))
+                    self.tokens.append(('word', word))
 
             # parenthesis
             elif self.source[ch] in Scanner.parenthesis:
-                self.tokens.append(('parenthesis ', self.source[ch]))
+                self.tokens.append(('parenthesis', self.source[ch]))
                 ch += 1
 
             # operator
             elif self.source[ch] in Scanner.operator:
                 # '==' operator
                 if self.source[ch+1] == '=':
-                    self.tokens.append(('operator ', '=='))
+                    self.tokens.append(('operator', '=='))
                     ch += 2
                 # other operators
                 else:
-                    self.tokens.append(('operator ', self.source[ch]))
+                    self.tokens.append(('operator', self.source[ch]))
                     ch += 1
             # 에러 발생 시 어떻게 할지 생각해보기
             else:
