@@ -1,0 +1,10 @@
+main() 
+{
+    int a;
+    int b;
+    int res;
+
+    a = 4 + 7;
+    b = 2;
+    res = a + b;
+}
