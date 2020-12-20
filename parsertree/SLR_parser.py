@@ -61,7 +61,7 @@ class Parser:
         self.tokens = tokens
         self.stack = ['$', 0]
         self.input_list = ['$']
-        self.log=list()
+        self.reduce_log = []
 
     # lexer: tokens ----(terminal)---> parser: input stack
     # terminals: 'word', 'num', parenthesis, operator, statement, semicolon
@@ -77,16 +77,16 @@ class Parser:
             else:
                 self.input_list.append(self.tokens[j][1])
         print()       
-        print(self.input_list)
+        # print(self.input_list)
 
     def parsing(self):
         s_top = self.stack.pop()
         i_top = self.input_list.pop()
         
         if self.action_goto_table(s_top, i_top) == -1:
-            print(self.stack)
-            print(self.input_list)
-            print()
+            # print('Stack:', self.stack)
+            # print('Input:', self.input_list)
+            # print()
             self.parsing()
         elif self.action_goto_table(s_top, i_top) == 0:
             print("Accept!")
@@ -113,97 +113,81 @@ class Parser:
                             if self.stack.pop() == 'word':
                                 break
                         self.stack.append('prog')
-                        self.log.append('r0')
                     elif Parser.action[i][3] == 1:
                         while True:
                             if self.stack.pop() == 'decls':
                                 break
                         self.stack.append('decls')
-                        self.log.append('r1')
                     elif Parser.action[i][3] == 2:
                         while True:
                             if self.stack.pop() == 'eps':
                                 break
                         self.stack.append('decls')
-                        self.log.append('r2')
                     elif Parser.action[i][3] == 3:
                         while True:
                             if self.stack.pop() == 'vtype':
                                 break
                         self.stack.append('decl')
-                        self.log.append('r3')
                     elif Parser.action[i][3] == 4:
                         while True:
                             if self.stack.pop() == 'int':
                                 break
                         self.stack.append('vtype')
-                        self.log.append('r4')
                     elif Parser.action[i][3] == 5:
                         while True:
                             if self.stack.pop() == 'char':
                                 break
                         self.stack.append('vtype')
-                        self.log.append('r5')
                     elif Parser.action[i][3] == 6:
                         while True:
                             if self.stack.pop() == 'eps':
                                 break
                         self.stack.append('vtype')
-                        self.log.append('r6')
                     elif Parser.action[i][3] == 7:
                         while True:
                             if self.stack.pop() == '{':
                                 break
                         self.stack.append('block')
-                        self.log.append('r7')
                     elif Parser.action[i][3] == 8:
                         while True:
                             if self.stack.pop() == 'eps':
                                 break
                         self.stack.append('block')
-                        self.log.append('r8')
                     elif Parser.action[i][3] == 9:
                         while True:
                             if self.stack.pop() == 'slist':
                                 break
                         self.stack.append('slist')
-                        self.log.append('r9')
                     elif Parser.action[i][3] == 10:
                         while True:
                             if self.stack.pop() == 'stat':
                                 break
                         self.stack.append('slist')
-                        self.log.append('r10')
                     elif Parser.action[i][3] == 11:
                         while True:
                             if self.stack.pop() == 'IF':
                                 break
                         self.stack.append('stat')
-                        self.log.append('r11')
                     elif Parser.action[i][3] == 12:
                         while True:
                             if self.stack.pop() == 'WHILE':
                                 break
                         self.stack.append('stat')
-                        self.log.append('r12')
                     elif Parser.action[i][3] == 13:
                         while True:
                             if self.stack.pop() == 'word':
                                 break
                         self.stack.append('stat')
-                        self.log.append('r13')
                     elif Parser.action[i][3] == 14:
                         while True:
                             if self.stack.pop() == 'EXIT':
                                 break
                         self.stack.append('stat')
-                        self.log.append('r14')
                     elif Parser.action[i][3] == 15:
                         while True:
                             if self.stack.pop() == 'eps':
                                 break
                         self.stack.append('stat')
-                        self.log.append('r15')
                     elif Parser.action[i][3] == 16:
                         while True:
                             if self.stack.pop() == '>':
@@ -212,7 +196,6 @@ class Parser:
                             if self.stack.pop() == 'expr':
                                 break
                         self.stack.append('cond')
-                        self.log.append('r16')
                     elif Parser.action[i][3] == 17:
                         while True:
                             if self.stack.pop() == '==':
@@ -221,13 +204,11 @@ class Parser:
                             if self.stack.pop() == 'expr':
                                 break
                         self.stack.append('cond')
-                        self.log.append('r17')
                     elif Parser.action[i][3] == 18:
                         while True:
                             if self.stack.pop() == 'term':
                                 break
                         self.stack.append('expr')
-                        self.log.append('r18')
                     elif Parser.action[i][3] == 19:
                         while True:
                             if self.stack.pop() == '+':
@@ -236,13 +217,11 @@ class Parser:
                             if self.stack.pop() == 'term':
                                 break
                         self.stack.append('expr')
-                        self.log.append('r19')
                     elif Parser.action[i][3] == 20:
                         while True:
                             if self.stack.pop() == 'fact':
                                 break
                         self.stack.append('term')
-                        self.log.append('r20')
                     elif Parser.action[i][3] == 21:
                         while True:
                             if self.stack.pop() == '*':
@@ -251,19 +230,18 @@ class Parser:
                             if self.stack.pop() == 'fact':
                                 break
                         self.stack.append('term')
-                        self.log.append('r21')
                     elif Parser.action[i][3] == 22:
                         while True:
                             if self.stack.pop() == 'num':
                                 break
                         self.stack.append('fact')
-                        self.log.append('r22')
                     elif Parser.action[i][3] == 23:
                         while True:
                             if self.stack.pop() == 'word':
                                 break
                         self.stack.append('fact')
-                        self.log.append('r23')
+
+                    self.reduce_log.append('r'+str(Parser.action[i][3]))
 
                     for j in range(len(Parser.goto)):
                         if Parser.goto[j][0] == self.stack[-2] and Parser.goto[j][1] == self.stack[-1]:
@@ -416,6 +394,8 @@ class Parser:
                             if self.stack.pop() == 'word':
                                 break
                         self.stack.append('fact')
+
+                    self.reduce_log.append('r'+str(Parser.action[i][3]))
 
                     for j in range(len(Parser.goto)):
                         if Parser.goto[j][0] == self.stack[-2] and Parser.goto[j][1] == self.stack[-1]:
