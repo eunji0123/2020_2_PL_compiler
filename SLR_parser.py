@@ -104,9 +104,6 @@ class Parser:
                             if self.stack.pop() == 'word':
                                 break
                         self.stack.append('prog')
-                        '''
-                        
-                        '''
                     elif Parser.action[i][3] == 1:
                         while True:
                             if self.stack.pop() == 'decls':
